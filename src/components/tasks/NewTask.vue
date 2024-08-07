@@ -16,9 +16,9 @@
     const newTask = reactive({
         name: '',
         is_completed: false
-    })
+    });
 
-    const emit = defineEmits(['added'])
+    const emit = defineEmits(['added']);
     
     const addNewtask = event => {
         if(event.target.value.trim()) {
@@ -26,5 +26,5 @@
             event.target.value = ""
             emit('added', newTask)
         }
-    }
+    };
 </script>

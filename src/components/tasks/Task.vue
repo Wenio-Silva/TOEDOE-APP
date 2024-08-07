@@ -5,15 +5,25 @@
 
             <input class="form-check-input mt-0" :class="completedClass" type="checkbox" :checked="task.is_completed" />
 
-            <div class="ms-2 flex-grow-1" :class="completedClass" title="Double click the text to edit or remove">
+            <div class="ms-2 flex-grow-1" 
+                :class="completedClass" 
+                title="Double click the text to edit or remove"
+                @dblclick="$event => isEdit = true"
+            >
 
-                <!-- <div class="relative">
+                <div class="relative" v-if="isEdit">
 
-                    <input class="editable-task" type="text" />
+                    <input class="editable-task" 
+                        type="text" 
+                        v-focus
+                        @keyup.esc="undo" 
+                        @keyup.enter="updateTask"    
+                        v-model="editingTask"
+                    />
 
-                </div> -->
+                </div>
 
-                <span>{{ task.name }}</span>
+                <span v-else>{{ task.name }}</span>
 
             </div>
 
@@ -21,33 +31,36 @@
 
         </div>
 
-        <div class="task-actions">
-
-            <button class="btn btn-sm btn-circle btn-outline-secondary me-1">
-
-                <IconPencil />
-
-            </button>
-
-            <button class="btn btn-sm btn-circle btn-outline-danger">
-
-                <IconTrash />
-
-            </button>
-
-        </div>
+        <TaskActions @edit="$event => isEdit = true" v-show="!isEdit" />
 
     </li>
 </template>
 
 <script setup>
-import { computed } from "vue"; 
-import IconPencil from "../icons/IconPencil.vue"
-import IconTrash from "../icons/IconTrash.vue"
-
+import { computed, ref } from "vue"; 
+import TaskActions from "./TaskActions.vue";
 const props = defineProps({
         task: Object
-})
+});
 
-const completedClass = computed(() => props.task.is_completed ? "completed" : "")
+const emit = defineEmits(['updated']);
+
+const isEdit = ref(false);
+const editingTask = ref(props.task.name);
+const completedClass = computed(() => props.task.is_completed ? "completed" : "");
+
+const vFocus = {
+    mounted: (el) => el.focus()
+};
+
+const updateTask = event => {
+    const updatedTask = { ...props.task, name: event.target.value };
+    isEdit.value = false;
+    emit('updated', updatedTask);
+};
+
+const undo = () => {
+    isEdit.value = false;
+    editingTask.value = props.task.name 
+}
 </script>
