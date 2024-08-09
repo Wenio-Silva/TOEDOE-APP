@@ -36,7 +36,10 @@
 
         </div>
 
-        <TaskActions @edit="$event => isEdit = true" v-show="!isEdit" />
+        <TaskActions 
+            @edit="$event => isEdit = true" v-show="!isEdit" 
+            @remove="removeTask"
+        />
 
     </li>
 </template>
@@ -48,7 +51,7 @@ const props = defineProps({
         task: Object
 });
 
-const emit = defineEmits(['updated', 'completed']);
+const emit = defineEmits(['updated', 'completed', 'removed']);
 
 const isEdit = ref(false);
 const editingTask = ref(props.task.name);
@@ -72,5 +75,11 @@ const markTaskAsCompleted = event => {
 const undo = () => {
     isEdit.value = false;
     editingTask.value = props.task.name 
+}
+
+const removeTask = () => {
+    if (confirm("Are you sure?")){
+        emit('removed', props.task)
+    }
 }
 </script>
