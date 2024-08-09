@@ -25,13 +25,13 @@
 
             <li class="nav-item">
 
-                <a href="my-tasks.html" class="nav-link">Tasks</a>
+                <router-link :to="{ name: 'tasks' }" class="nav-link">Tasks</router-link>
 
             </li>
 
             <li class="nav-item">
 
-                <a href="#" class="nav-link">Summary</a>
+                <router-link :to="{ name: 'summary' }" class="nav-link">Summary</router-link>
 
             </li>
 
@@ -41,13 +41,13 @@
 
             <li class="nav-item">
 
-                <a href="#" class="btn btn-outline-secondary ms-2">Login</a>
+                <router-link v-bind:to="{ name: 'login' }" class="btn btn-outline-secondary ms-2">Login</router-link>
 
             </li>
 
             <li class="nav-item">
 
-                <a href="#" class="btn btn-danger ms-2">Register</a>
+                <router-link :to="{ name: 'register' }" class="btn btn-danger ms-2">Register</router-link>
 
             </li>
 
