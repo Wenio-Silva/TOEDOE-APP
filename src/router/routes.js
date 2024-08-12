@@ -10,17 +10,14 @@ const routes = [
         path: "/",
         component: HomePage,
         name: 'home',
-        //meta: {
-        //    auth: true
-        //}
     },
     {
         path: "/tasks",
         component: TaskPage,
         name: 'tasks',
-        //meta: {
-        //    auth: true
-        //}
+        meta: {
+            auth: true
+        }
     },
     {
         path: "/login",
@@ -36,9 +33,9 @@ const routes = [
         path: "/summary",
         component: SummaryPage,
         name: 'summary',
-        //meta: {
-        //    auth: true
-        //}
+        meta: {
+            auth: true
+        }
     },
     {
         path: "/:notFound(.*)",
