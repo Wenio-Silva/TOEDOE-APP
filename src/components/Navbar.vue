@@ -21,7 +21,7 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
 
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" v-if="store.isLoggedIn">
 
             <li class="nav-item">
 
@@ -38,25 +38,26 @@
         </ul>
 
         <ul class="navbar-nav ms-auto">
+            <template v-if="!store.isLoggedIn">
+                <li class="nav-item">
 
-            <li class="nav-item">
+                    <router-link v-bind:to="{ name: 'login' }" class="btn btn-outline-secondary ms-2">Login</router-link>
 
-                <router-link v-bind:to="{ name: 'login' }" class="btn btn-outline-secondary ms-2">Login</router-link>
+                </li>
 
-            </li>
+                <li class="nav-item">
 
-            <li class="nav-item">
+                    <router-link :to="{ name: 'register' }" class="btn btn-danger ms-2">Register</router-link>
 
-                <router-link :to="{ name: 'register' }" class="btn btn-danger ms-2">Register</router-link>
+                </li>
+            </template>
+            <template v-else>
+                <li class="nav-item">
 
-            </li>
+                    <a href="#" class="btn btn-outline-secondary ms-2" @click.prevent="logout">Logout</a>
 
-            <li class="nav-item">
-
-                <a href="#" class="btn btn-outline-secondary ms-2">Logout</a>
-
-            </li>
-
+                </li>
+            </template>
         </ul>
 
     </div>
@@ -65,3 +66,17 @@
 
 </nav>
 </template>
+
+<script setup>
+import { useRouter } from "vue-router";
+import { useAuthStore } from '../stores/auth';
+
+const router = useRouter()
+const store = useAuthStore();
+
+const logout = async () => {
+    await store.handleLogout()
+    router.push({ name: 'login'})
+}
+
+</script>
