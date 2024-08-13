@@ -21,42 +21,47 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
 
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" v-if="store.isLoggedIn">
 
             <li class="nav-item">
 
-                <a href="my-tasks.html" class="nav-link">Tasks</a>
+                <router-link :to="{ name: 'tasks' }" class="nav-link">Tasks</router-link>
 
             </li>
 
             <li class="nav-item">
 
-                <a href="#" class="nav-link">Summary</a>
+                <router-link :to="{ name: 'summary' }" class="nav-link">Summary</router-link>
 
             </li>
 
         </ul>
 
         <ul class="navbar-nav ms-auto">
+            <template v-if="!store.isLoggedIn">
+                <li class="nav-item">
 
-            <li class="nav-item">
+                    <router-link v-bind:to="{ name: 'login' }" class="btn btn-outline-secondary ms-2">Login</router-link>
 
-                <a href="#" class="btn btn-outline-secondary ms-2">Login</a>
+                </li>
 
-            </li>
+                <li class="nav-item">
 
-            <li class="nav-item">
+                    <router-link :to="{ name: 'register' }" class="btn btn-danger ms-2">Register</router-link>
 
-                <a href="#" class="btn btn-danger ms-2">Register</a>
+                </li>
+            </template>
+            <template v-else>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" :class="toggleClass" @click.prevent="toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{store.user.name}}
+                    </a>
+                    <div class="dropdown-menu" :class="toggleClass" aria-labelledby="navbarDropdown">
+                        <a href="#" class="dropdown-item" @click.prevent="logout">Logout</a>
 
-            </li>
-
-            <li class="nav-item">
-
-                <a href="#" class="btn btn-outline-secondary ms-2">Logout</a>
-
-            </li>
-
+                    </div>
+                </li>
+            </template>
         </ul>
 
     </div>
@@ -65,3 +70,24 @@
 
 </nav>
 </template>
+
+<script setup>
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from '../stores/auth';
+
+const router = useRouter()
+const store = useAuthStore();
+const isOpen = ref(false);
+const logout = async () => {
+    await store.handleLogout();
+    isOpen.value = false;
+    router.push({ name: 'login'});
+}
+
+const toggle = () => {
+    isOpen.value = !isOpen.value;
+}
+const toggleClass = computed(() => isOpen.value === true ? 'show' : '')
+
+</script>
