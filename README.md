@@ -12,6 +12,8 @@ This project is a web application developed using Vue.js 3 for efficiently stori
 This project showcases the practical application of these core Vue 3 concepts, providing a solid foundation for building dynamic and interactive web applications.
 
 <h2>First page</h2>
+<img src="https://github.com/user-attachments/assets/cd21a34e-86a4-4e4e-ba1f-806f73db4950" alt="First page" width="600">
+
 ![image](https://github.com/user-attachments/assets/cd21a34e-86a4-4e4e-ba1f-806f73db4950)
 
 <h2>Register page</h2>
